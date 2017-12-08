@@ -1,0 +1,8 @@
+-- Haskell Playground 1.0
+input <- parse <$> readFile "./Day_2.txt"
+testInput = parse "5 9 2 8\n9 4 7 3\n3 8 6 5"
+checkSum input
+
+-- Part 2
+findTopDivisor [9, 4, 7, 3]
+sum $ divPair . checkSum2 <$> input

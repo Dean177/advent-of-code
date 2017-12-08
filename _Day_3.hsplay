@@ -1,0 +1,13 @@
+-- Haskell Playground 1.0
+solution = solve1 (initialState 265149)
+_steps (solution)
+hammingDistance $ _steps $ solution
+
+dirs = [E, N, W, S] ++ dirs
+solve2 
+  (0, 0)
+  dirs
+  1
+  1
+  1
+  (Map.fromList [((0,0), 1)])

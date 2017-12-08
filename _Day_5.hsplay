@@ -1,0 +1,15 @@
+-- Haskell Playground 1.0
+
+input <- parse <$> readFile "./Day_5.txt"
+
+testInput = parse $ "0\n3\n0\n1\n-3"
+
+initialState = CompState { 
+  instructionIndex = 0, 
+  count = 0, 
+  instructions = input
+  } 
+  
+comp = continueComputation_2 $ Seq.length input
+
+comp 0 0 input

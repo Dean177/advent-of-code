@@ -1,0 +1,21 @@
+-- Haskell Playground 1.0
+readP_to_S programName "sddd "
+readP_to_S readWeight "(87)"
+readP_to_S children " -> ktlj, cntj, xhth"
+
+readProgram childlessExample
+readProgram example
+
+input <- lines <$> readFile "./Day_7.txt"
+puzzleInput = readProgram <$> input
+
+rootName = findRoot puzzleInput S.empty S.empty
+
+codeToProgram = foldl 
+  (flip $ uncurry M.insert) 
+  M.empty 
+  (nameToProgram <$> puzzleInput)
+ 
+rootProgram@(Program _ _ chl) = codeToProgram M.! rootName 
+ 
+weight codeToProgram <$> (findChildren codeToProgram chl)

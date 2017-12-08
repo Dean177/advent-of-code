@@ -1,0 +1,4 @@
+-- Haskell Playground 1.0
+--input <- readFile "./Day_4.txt"
+--solve $ parse input
+--solve_2 $ parse input

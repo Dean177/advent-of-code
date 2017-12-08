@@ -1,0 +1,11 @@
+-- Haskell Playground 1.0
+{-# LANGUAGE OverloadedStrings #-}
+
+
+import Network.Wreq
+import Control.Lens
+import Data.Aeson.Lens (_String, key)
+import Data.ByteString.Lazy.Char8 as BS
+
+result <- get "http://google.com"
+BS.putStrLn $ result^.responseBody

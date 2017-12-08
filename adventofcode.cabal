@@ -1,0 +1,38 @@
+name: adventofcode
+version: 1.0
+cabal-version: 1.22
+build-type: Simple
+license: AllRightsReserved
+stability: experimental
+data-files:
+    Day_7.txt
+    Day_1.txt
+    Day_5.txt
+    Day_8.txt
+    Day_8_test.txt
+    Day_2.txt
+    Day_4.txt
+x-ghc-framework-version: 8.0.2-8.9-3
+x-last-ide-version: HfM1.5.1
+Executable adventofcode
+  main-is: Main.hs
+  buildable: True
+  build-depends:
+      base -any,
+      megaparsec -any,
+      monad-loops -any,
+      mtl -any,
+      Unique -any,
+      containers -any
+  default-language: Haskell2010
+  other-modules:
+      Day_8
+      Day_4
+      Day_1
+      Day_6
+      Util
+      Day_5
+      NewModule
+      Day_3
+      Day_2
+      Day_7

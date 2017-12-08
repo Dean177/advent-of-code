@@ -1,0 +1,15 @@
+-- Haskell Playground 1.0
+testExp = "c inc -20 if c == 10"
+readP_to_S int "-20"
+readP_to_S moveBy "dec -20"
+readP_to_S condition "if c == 10"
+
+readP_to_S instruction testExp
+
+input <- readFile "./Day_8.txt"
+puzzleInput = parse input
+
+endRegisters = solve puzzleInput
+
+
+(solve2 puzzleInput)
