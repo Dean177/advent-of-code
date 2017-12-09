@@ -70,7 +70,7 @@ instance Show PTree where
 
 construct :: M.Map String Program -> Program -> PTree
 construct programs p@(Program _ w _) =
-  PTree (w, (weight programs p)) (construct programs <$> childPrograms)
+  PTree (w, weight programs p) (construct programs <$> childPrograms)
     where
       childPrograms = findChildren programs (childNames p)
 

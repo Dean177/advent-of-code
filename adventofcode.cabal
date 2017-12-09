@@ -2,14 +2,16 @@ name: adventofcode
 version: 1.0
 cabal-version: 1.22
 build-type: Simple
-license: AllRightsReserved
+license: MIT
 stability: experimental
+author: Dean Merchant
 data-files:
     Day_7.txt
     Day_1.txt
     Day_5.txt
     Day_8.txt
     Day_8_test.txt
+    Day_9.txt
     Day_2.txt
     Day_4.txt
 x-ghc-framework-version: 8.0.2-8.9-3
@@ -24,13 +26,15 @@ Executable adventofcode
       mtl -any,
       Unique -any,
       containers -any,
-      raw-strings-qq -any
+      raw-strings-qq -any,
+      text -any
   default-language: Haskell2010
   other-modules:
       Day_8
       Day_4
       Day_1
       Day_6
+      Day_9
       Util
       Day_5
       Day_3
