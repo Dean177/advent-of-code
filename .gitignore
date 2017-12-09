@@ -1,2 +1,6 @@
-*.txt
+.cabal-sandbox
+.idea
 .stack-work
+*.txt
+.uuid
+dist/

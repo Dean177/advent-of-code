@@ -1,5 +1,5 @@
 module Day_4 where
-import Data.List 
+import Data.List
 import Data.List.Unique
 
 parse = map words . lines
@@ -9,5 +9,6 @@ validPassphrase = null . repeat
 solve = length . filter validPassphrase
 
 -- Part 2
+validLine :: [String] -> Bool
 validLine line = validPassphrase $ map sort line
 solve_2 = length . filter validLine
