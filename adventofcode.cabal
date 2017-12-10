@@ -27,7 +27,8 @@ Executable adventofcode
       Unique -any,
       containers -any,
       raw-strings-qq -any,
-      text -any
+      text -any,
+      vector -any
   default-language: Haskell2010
   other-modules:
       Day_8
