@@ -6,10 +6,6 @@ import qualified Data.Vector as V
 import Numeric (showHex, showIntAtBase)
 import Text.Printf (printf)
 
-input = V.fromList [0..255]
-lengths = [88,88,211,106,141,1,78,254,2,111,77,255,90,0,54,205]
-puzzleInput = "88,88,211,106,141,1,78,254,2,111,77,255,90,0,54,205"
-
 wrap :: Int -> Int
 wrap i = i `mod` 256
 
@@ -69,10 +65,8 @@ toHexString :: V.Vector Int -> String
 toHexString ints = concat $ toHex <$> ints
 
 main = do
-  -- print $ condense V.empty $ V.fromList [65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22]
-  -- print $  [64, 7, 255]
+  let puzzleInput = "88,88,211,106,141,1,78,254,2,111,77,255,90,0,54,205"
   let lengths = parseLengths puzzleInput :: [Int]
   let initialValues = (0, 0, V.fromList [0..255]) :: (Int, Int, V.Vector Int)
   let (_, _, result) = runRounds lengths 64 initialValues
-  -- print result
   print $ toHexString $ condense V.empty result

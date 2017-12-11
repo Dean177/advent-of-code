@@ -27,6 +27,7 @@ Executable adventofcode
       Unique -any,
       containers -any,
       raw-strings-qq -any,
+      split -any,
       text -any,
       vector -any
   default-language: Haskell2010
@@ -36,6 +37,8 @@ Executable adventofcode
       Day_1
       Day_6
       Day_9
+      Day_10
+      Day_11
       Util
       Day_5
       Day_3
