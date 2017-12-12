@@ -19,7 +19,7 @@ x-last-ide-version: HfM1.5.1
 Executable adventofcode
   main-is: Main.hs
   buildable: True
-  build-depends:
+  build-depends:      
       base -any,
       megaparsec -any,
       monad-loops -any,
