@@ -10,7 +10,6 @@ data-files:
     Day_1.txt
     Day_5.txt
     Day_8.txt
-    Day_8_test.txt
     Day_9.txt
     Day_2.txt
     Day_4.txt
@@ -19,11 +18,12 @@ x-last-ide-version: HfM1.5.1
 Executable adventofcode
   main-is: Main.hs
   buildable: True
-  build-depends:      
+  build-depends:
       base -any,
-      megaparsec -any,
+      megaparsec == 5.2.*,
       monad-loops -any,
       mtl -any,
+      parallel -any,
       Unique -any,
       containers -any,
       raw-strings-qq -any,
