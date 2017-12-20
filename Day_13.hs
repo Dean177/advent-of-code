@@ -22,7 +22,7 @@ isCaughtWithDelay depthRanges delay = or $ caught delay <$> depthRanges
   where caught delay (depth, range) = isCaught (depth + delay, range)
 
 main = do
-  (Right puzzleInput) <- runParser layers "Packet scanner" <$> readFile "./Day_13.txt"--testInput
+  (Right puzzleInput) <- runParser layers "Packet scanner" <$> readFile "./Day_13.txt"
   print $ sum $ severity <$> filter isCaught puzzleInput
 
   -- Part 2

@@ -1,72 +1,77 @@
+{-# LANGUAGE RecordWildCards #-}
 module Day_10 where
 
-import qualified Data.Bits as Bits
-import qualified Data.Char as Char
-import qualified Data.Vector as V
-import Numeric (showHex, showIntAtBase)
+import Control.Monad.ST (runST, ST)
+import Data.Bits (xor)
+import Data.Char (ord)
+import Data.Foldable
+import Data.List
+import Data.List.Split (chunksOf, splitOn)
+import Data.Maybe (catMaybes)
+import qualified Data.Vector.Unboxed as V
+import qualified Data.Vector.Unboxed.Mutable as MV
+import Data.Word (Word8)
 import Text.Printf (printf)
 
-wrap :: Int -> Int
-wrap i = i `mod` 256
+hashSize :: Int
+hashSize = 256
 
-twist :: Int -> Int -> V.Vector Int -> V.Vector Int
-twist from twistLength vec
-  | twistLength == 1 = vec
-  | from + twistLength <= 256 =
-      V.slice 0 from vec V.++
-      V.reverse (V.slice from twistLength vec) V.++
-      V.slice (from + twistLength) (V.length vec - from - twistLength) vec
-  | otherwise = newFrontSlice V.++ newMidSlice V.++ newEndSlice
-    where
-      vecLen = V.length vec
-      endLength = vecLen - from
-      endSlice = V.slice from endLength vec
-      frontLength = wrap (twistLength - (vecLen - from))
-      frontSlice = V.slice 0 frontLength vec
-      reversedSegment = V.reverse (endSlice V.++ frontSlice)
-      reversedSegmentLength = V.length reversedSegment
-      newFrontSlice = V.slice (reversedSegmentLength - frontLength) frontLength reversedSegment
-      newMidSlice = V.slice (wrap $ from + twistLength) (vecLen - twistLength) vec
-      newEndSlice = V.slice 0 endLength reversedSegment
+wrapToHashSize :: Int -> Int
+wrapToHashSize i = i `mod` hashSize
 
-hash :: Int -> Int -> V.Vector Int -> [Int] -> (Int, Int, V.Vector Int)
-hash skipSize currentIndex vector [] = (skipSize, currentIndex, vector)
-hash skipSize currentIndex vector (l:ls) =
-  hash
-    (skipSize + 1)
-    (wrap $ currentIndex + l + skipSize)
-    (twist currentIndex l vector)
-    ls
+salt :: [Int]
+salt = [17, 31, 73, 47, 23]
 
-runRounds :: [Int] -> Int -> (Int, Int, V.Vector Int) -> (Int, Int, V.Vector Int)
-runRounds _ 0 sspv = sspv
-runRounds ls n (skipSize, currentIndex, vec) =
-  runRounds ls (n - 1) (hash skipSize currentIndex vec ls)
+data KnotHashRing s = KnotHashRing {
+  position :: !Int,
+  skip :: !Int,
+  hash :: !(MV.STVector s Int)
+  }
 
-condenseBlock :: V.Vector Int -> Int
-condenseBlock = foldl Bits.xor 0
+initKnotHash :: ST s (KnotHashRing s)
+initKnotHash = fmap (KnotHashRing 0 0) (V.thaw (V.fromList [0 .. hashSize - 1]))
 
-condense :: V.Vector Int -> V.Vector Int -> V.Vector Int
-condense ys xs
-  | V.null xs = ys
-  | otherwise = let currentBlock = condenseBlock (V.take 16 xs) in
-    condense (ys `V.snoc` currentBlock) (V.drop 16 xs)
+twist :: KnotHashRing s -> Int -> ST s (KnotHashRing s)
+twist KnotHashRing {..} n = do
+  let indexes = wrapToHashSize <$> [position, position + 1 .. position + n - 1]
+  xs <- traverse (MV.unsafeRead hash) indexes
+  traverse_ (uncurry $ MV.unsafeWrite hash) (zip indexes (reverse xs))
+  return $ KnotHashRing (wrapToHashSize $ position + skip + n) (skip + 1) hash
 
-toHex :: Int -> String
-toHex n
-  | length hexNum == 1 = "0" ++ hexNum
-  | otherwise = hexNum
-  where hexNum = showHex n ""
+sparseHash :: [Int] -> [Int]
+sparseHash lengths = V.toList $ runST $ do
+  knotHashRing <- initKnotHash
+  KnotHashRing {..} <- foldlM twist knotHashRing lengths
+  V.unsafeFreeze hash
 
 parseLengths :: String -> [Int]
-parseLengths input = (Char.ord <$> input) ++ [17, 31, 73, 47, 23]
+parseLengths input = ord <$> input
+-- parseLengths input = fromIntegral . ord <$> input
 
-toHexString :: V.Vector Int -> String
-toHexString ints = concat $ toHex <$> ints
+knotHashDay10 :: String -> [Int]
+knotHashDay10 input =
+  let lengths = parseLengths input ++ salt
+      expand = concat . replicate 64
+  in  foldl1' xor <$> chunksOf 16 (sparseHash $ expand lengths)
+
+knotHash :: String -> [Word8]
+knotHash input =
+  let lengths = parseLengths input ++ salt
+      expand = concat . replicate 64
+      sparse = sparseHash $ expand lengths
+      word8s = fromIntegral <$> sparse :: [Word8]
+  in  foldl1' xor <$> chunksOf 16 word8s
+
+part1 :: String -> Int
+part1 = check . sparseHash . readInts
+ where
+  check (a:b:_) = a * b
+  readInts = fmap read . splitOn ","
+
+part2 :: String -> String
+part2 = concatMap (printf "%02x") . knotHashDay10
 
 main = do
   let puzzleInput = "88,88,211,106,141,1,78,254,2,111,77,255,90,0,54,205"
-  let lengths = parseLengths puzzleInput :: [Int]
-  let initialValues = (0, 0, V.fromList [0..255]) :: (Int, Int, V.Vector Int)
-  let (_, _, result) = runRounds lengths 64 initialValues
-  print $ toHexString $ condense V.empty result
+  print $ part1 puzzleInput
+  print $ part2 puzzleInput

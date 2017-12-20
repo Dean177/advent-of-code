@@ -16,4 +16,3 @@ main = do
   print $ distance $ foldl step (0, 0, 0) input
   -- Part 2
   print $ maximum $ distance <$> scanl step (0,0,0) input
-  return ()

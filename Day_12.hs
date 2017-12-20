@@ -26,4 +26,3 @@ main = do
   print $ length $ reachable graph zeroVertex
   -- Part 2
   print $ length $ components graph
-  return ()

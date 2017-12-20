@@ -23,7 +23,7 @@ comp a@(_, a') b@(_, b')
 type Memory = Seq.Seq (Int, Int)
 
 maxWithIndex :: Memory -> (Int, Int)
-maxWithIndex = foldl comp (0, -1)
+maxWithIndex = foldl' comp (0, -1)
 
 -- Get values to wrap around
 wrapIndex seqLength targetIndex = targetIndex `mod` seqLength
