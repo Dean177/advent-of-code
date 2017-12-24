@@ -100,7 +100,7 @@ part1 input =
 isPrime :: Int -> Bool
 isPrime k = null [x | x <- [2..(k `div` 2)], k `mod` x  == 0]
 
-{- Psuedo code to count primes in steps of 17
+{- Psuedo code to count non-primes in steps of 17
 b = 107900
 c = 124900
 
@@ -124,8 +124,7 @@ loop $ do
     then exit
     else b = b + 17
 -}
-part2 = do
-  let bound = 107900 :: Int
+part2 =
   print $ length $ filter (not . isPrime) [107900, 107900 + 17..124900]
 
 main = do
