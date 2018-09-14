@@ -1,0 +1,9 @@
+(library
+  (name repetition)
+  (libraries core)  
+  (preprocess (pps ppx_jane))
+  (inline_tests))
+
+(alias
+  (name runtest)
+  (deps noise.txt))

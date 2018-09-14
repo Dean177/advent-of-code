@@ -1,0 +1,9 @@
+(library
+  (name bathroom)
+  (libraries angstrom core)  
+  (preprocess (pps ppx_jane))
+  (inline_tests))
+
+(alias
+  (name runtest)
+  (deps code.txt))

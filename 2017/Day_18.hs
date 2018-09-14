@@ -55,9 +55,7 @@ instructions = ins `sepBy` char '\n'
 
 data MachineSpec m = MachineSpec { program :: V.Vector Ins, send :: Int -> m (), recv :: m Int }
 
-data MachineState
-  = MachineTerminated
-  | MachineState { instructionIndex :: Int, registers :: Map Char Int }
+data MachineState = MachineTerminated | MachineState { instructionIndex :: Int, registers :: Map Char Int }
 
 step :: Monad m => MachineSpec m -> MachineState -> m MachineState
 step MachineSpec {..} s@MachineState {..} =
@@ -151,4 +149,4 @@ part2 input = do
 main = do
   (Right ins) <- parse instructions "Instructions" <$> TIO.readFile "./Day_18.txt"
   print $ part1 ins
-  print =<< part2 ins
+  print =<<T part2 ins

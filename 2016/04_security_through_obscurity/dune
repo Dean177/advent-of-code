@@ -1,0 +1,9 @@
+(library
+  (name obscurity)
+  (libraries angstrom core)  
+  (preprocess (pps ppx_jane))
+  (inline_tests))
+
+(alias
+  (name runtest)
+  (deps rooms.txt))

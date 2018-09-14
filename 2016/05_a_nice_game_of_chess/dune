@@ -1,0 +1,5 @@
+(library
+  (name door_passwords)
+  (libraries core)  
+  (preprocess (pps ppx_jane))
+  (inline_tests))

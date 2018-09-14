@@ -35,6 +35,7 @@ decideTurn Infected = R
 decideTurn Flagged = OneEighty
 
 turn :: Direction -> Rotation -> Direction
+turn d Zero = d
 turn N L = W
 turn N R = E
 turn N OneEighty = S
@@ -47,8 +48,8 @@ turn S OneEighty = N
 turn W L = S
 turn W R = N
 turn W OneEighty = E
-turn d Zero = d
-
+turn d r = case (d, r) of
+  (N, L), (E, OneEighty) -> W
 
 move :: Virus -> Virus
 move (Virus (x, y) N) = Virus (x, y - 1) N
