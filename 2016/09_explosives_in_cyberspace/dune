@@ -1,5 +1,5 @@
 (library
-  (name is_bab)
+  (name explode)
   (libraries core)  
   (preprocess (pps ppx_jane))
   (inline_tests))
