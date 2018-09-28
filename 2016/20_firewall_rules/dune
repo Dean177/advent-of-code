@@ -1,0 +1,5 @@
+(library
+  (name range)
+  (libraries angstrom core)  
+    (inline_tests (deps ranges.txt))
+    (preprocess (pps ppx_jane)))

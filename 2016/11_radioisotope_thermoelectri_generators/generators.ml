@@ -203,7 +203,7 @@ let search () =
 
 let%expect_test _ =
   let path = search () in
-  path |> [%sexp_of : State.t list] |> Sexp.to_string_hum |> print_endline;
+  path |> [%sexp_of : State.t list] |> print_s;
   [%expect {|
     Path length: 0
     Seen states: 0

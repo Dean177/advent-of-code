@@ -59,11 +59,11 @@ let transform_to_column_triangles triangle_list =
 
 let%expect_test _ =
   {eof|101 301 501
-    102 302 502
-    103 303 503
-    201 401 601
-    202 402 602
-    203 403 603|eof}
+       102 302 502
+       103 303 503
+       201 401 601
+       202 402 602
+       203 403 603|eof}
   |> parse_string parse_triangles |> unwrap 
   |> transform_to_column_triangles
   |> List.filter ~f:is_triangle
@@ -74,11 +74,11 @@ let%expect_test _ =
 
 let%expect_test _ =
   {eof|736   50  363
-    657  707  408
-    252  705   98
-    532  173  878
-    574  792  854
-    157  737  303|eof}    
+       657  707  408
+       252  705   98
+       532  173  878
+       574  792  854
+       157  737  303|eof}    
   |> parse_string parse_triangles |> unwrap 
   |> transform_to_column_triangles
   |> List.filter ~f:is_triangle
@@ -88,7 +88,7 @@ let%expect_test _ =
   [%expect {| 6 |}]
 
 let%expect_test _ =
-  In_channel.read_all "./triangles.txt" |> parse_string parse_triangles |> unwrap 
+  In_channel.read_all "./triangles.txt" |> parse_string parse_triangles |> Result.ok_or_failwith 
   |> transform_to_column_triangles
   |> List.filter ~f:is_triangle
   |> List.length  

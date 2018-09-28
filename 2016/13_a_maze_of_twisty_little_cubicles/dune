@@ -1,5 +1,5 @@
 (library
-  (name explode)
+  (name search)
   (libraries angstrom core)  
   (preprocess (pps ppx_jane))
-  (inline_tests (deps compressed.txt)))
+  (inline_tests))

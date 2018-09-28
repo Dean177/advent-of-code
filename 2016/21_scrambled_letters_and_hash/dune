@@ -1,0 +1,5 @@
+(library
+  (name scramble)
+  (libraries angstrom core)  
+    (inline_tests (deps statements.txt))
+    (preprocess (pps ppx_jane)))

@@ -107,13 +107,13 @@ module Parser = struct
 
   let test_instructionms = 
     let test_input = {|cpy 41 a
-    inc a
-    inc a
-    dec a
-    jnz a 2
-    dec a|}
+                       inc a
+                       inc a
+                       dec a
+                       jnz a 2
+                       dec a|}
     in
-    parse_string instructions_parser test_input |> unwrap_exn |> (Array.of_list)
+    parse_string instructions_parser test_input |> Result.ok_or_failwith |> (Array.of_list)
 
   let%expect_test _ = 
     parsed_instructions  |> [%sexp_of : instruction array] |> Sexp.to_string_hum |> print_endline;
@@ -140,5 +140,5 @@ let part_two_inital_state = {
 }
 
 let%expect_test _ = 
-  process_i Parser.parsed_instructions part_two_inital_state |> [%sexp_of : int Register.Map.t] |> Sexp.to_string_hum |> print_endline;
+  process_i Parser.parsed_instructions part_two_inital_state |> [%sexp_of : int Register.Map.t] |> print_s;
   [%expect {| ((A 9227771) (B 5702887) (C 0) (D 0)) |}]

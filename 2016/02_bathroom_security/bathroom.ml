@@ -1,10 +1,6 @@
 open Angstrom
 open! Core
 
-let unwrap = function 
-  | Ok a -> a
-  | Error str -> failwith str
-
 type instruction = U | L | D | R [@@deriving sexp]
 
 let parse_instruction = 
@@ -60,7 +56,7 @@ let%expect_test _ =
   [%expect {| (1 9 8 5) |}]
 
 let%expect_test _ =
-  In_channel.read_all "./code.txt" |> parse_string parse_instructions |> unwrap |> solve_grid 
+  In_channel.read_all "./code.txt" |> parse_string parse_instructions |> Result.ok_or_failwith |> solve_grid 
   |> [%sexp_of : (int list)] |> Sexp.to_string_hum |> print_endline;
   [%expect {| (1 9 6 3 6) |}]
 
@@ -89,6 +85,6 @@ let%expect_test _ =
   [%expect {| (5 D B 3) |}]
 
 let%expect_test _ =
-  In_channel.read_all "./code.txt" |> parse_string parse_instructions |> unwrap |> solve_diamond 
-  |> [%sexp_of : (char list)] |> Sexp.to_string_hum |> print_endline;
+  In_channel.read_all "./code.txt" |> parse_string parse_instructions |> Result.ok_or_failwith |> solve_diamond 
+  |> [%sexp_of : (char list)] |> print_s;
   [%expect {| (3 C C 4 3) |}]

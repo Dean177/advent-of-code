@@ -68,16 +68,16 @@ module Parser = struct
     [%expect {| (Give (giver 2) (high_receiver (Bot 0)) (low_receiver (Bot 1))) |}]
 
   let%expect_test _ =     
-    parse_string instruction "bot 0 gives low to output 2 and high to output 0" |> unwrap |> pp;
+    parse_string instruction "bot 0 gives low to output 2 and high to output 0" |> Result.ok_or_failwith |> pp;
     [%expect {| (Give (giver 0) (high_receiver (Output 0)) (low_receiver (Output 2))) |}]
 
   let test_instructions = {eof|value 5 goes to bot 2
-bot 2 gives low to bot 1 and high to bot 0
-value 3 goes to bot 1
-bot 1 gives low to output 1 and high to bot 0
-bot 0 gives low to output 2 and high to output 0
-value 2 goes to bot 2|eof} 
-(* 
+                               bot 2 gives low to bot 1 and high to bot 0
+                               value 3 goes to bot 1
+                               bot 1 gives low to output 1 and high to bot 0
+                               bot 0 gives low to output 2 and high to output 0
+                               value 2 goes to bot 2|eof} 
+  (* 
   let%expect_test _ = 
     parse test_instructions
     |> [%sexp_of : instruction list] |> Sexp.to_string_hum 
@@ -109,18 +109,18 @@ let%expect_test _ =
   [%expect {| ((low (3)) (high (5))) |}]
 
 let send (chip_value : microchip) destination (output, bots) =
-    match destination with 
-    | Output output_id -> (Map.set output ~key:output_id ~data:chip_value, bots)
-    | Bot bot_id -> (output, Map.update bots bot_id ~f:(accept chip_value))
+  match destination with 
+  | Output output_id -> (Map.set output ~key:output_id ~data:chip_value, bots)
+  | Bot bot_id -> (output, Map.update bots bot_id ~f:(accept chip_value))
 
 let execute ((output, bots): (int Int.Map.t * bot Int.Map.t)) = function  
   | Receive { value; destination; } ->  send value destination (output, bots)
   | Give { giver; high_receiver; low_receiver; } -> (match Map.find bots giver with
       | None -> (output, bots)
       | Some { low=(Some low_value); high=(Some high_value); } -> (
-        print_string (
-        "bot: " ^ (Int.to_string giver) ^ 
-        " chip_values: " ^ (Int.to_string low_value) ^  " " ^ (Int.to_string low_value));
+          print_string (
+            "bot: " ^ (Int.to_string giver) ^ 
+            " chip_values: " ^ (Int.to_string low_value) ^  " " ^ (Int.to_string low_value));
           (output, Map.set bots ~key:giver ~data:empty_bot)
           |> send low_value low_receiver 
           |> send high_value high_receiver
@@ -144,11 +144,11 @@ let%expect_test _ =
   |> List.fold 
     ~init:(Int.Map.empty, Int.Map.empty) 
     ~f:execute
-    (* ~f:(fun state instruction ->  *)
-    (* state |> [%sexp_of : (int Int.Map.t * bot Int.Map.t)] |> Sexp.to_string_hum |> print_endline;     *)
-    (* instruction |> Parser.pp; *)
-    (* execute state instruction) *)
-  |> snd |> [%sexp_of : (bot Int.Map.t)] |> Sexp.to_string_hum |> print_endline
+  (* ~f:(fun state instruction ->  *)
+  (* state |> [%sexp_of : (int Int.Map.t * bot Int.Map.t)] |> Sexp.to_string_hum |> print_endline;     *)
+  (* instruction |> Parser.pp; *)
+  (* execute state instruction) *)
+  |> snd |> [%sexp_of : (bot Int.Map.t)] |> print_s
   ;
   [%expect {|
     ((17 ((low (47)) (high (67)))) (24 ((low ()) (high (71))))

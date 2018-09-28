@@ -1,0 +1,5 @@
+(library
+  (name vault)
+  (libraries angstrom core)  
+  (inline_tests)
+  (preprocess (pps ppx_jane)))

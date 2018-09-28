@@ -31,7 +31,7 @@ module Parser = struct
 
   let%expect_test _ =
     let test_rows = {eof|vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
-mbiyqoxsm-pvygob-nocsqx-900[obmqs]|eof} in
+                         mbiyqoxsm-pvygob-nocsqx-900[obmqs]|eof} in
     let () = parse test_rows
              |> [%sexp_of : room list] |> Sexp.to_string_hum 
              |> print_endline 
@@ -41,10 +41,6 @@ mbiyqoxsm-pvygob-nocsqx-900[obmqs]|eof} in
         (sector_id 644))
        ((checksum obmqs) (encrypted_name mbiyqoxsmpvygobnocsqx) (sector_id 900))) |}]
 end
-
-let unwrap = function 
-  | Ok a -> a
-  | Error str -> failwith str
 
 let compare_char_counts (char_a, count_a) (char_b, count_b) = match Int.compare count_b count_a with 
   | 0 -> Char.compare char_a char_b
@@ -59,7 +55,7 @@ let char_counts (encrypted_name : string) =
 let%expect_test _ =   
   Map.to_alist (char_counts "aaaaabbbzyx") 
   |> List.sort ~compare:compare_char_counts
-  |> [%sexp_of : (char * int) list] |> Sexp.to_string_hum |> print_endline;
+  |> [%sexp_of : (char * int) list] |> print_s;
   [%expect {| ((a 5) (b 3) (x 1) (y 1) (z 1)) |}]
 
 let calc_checksum encrypted_name =     
@@ -87,10 +83,10 @@ let solution rooms =
     ~f:(fun total room -> if is_real room then (total + room.sector_id) else total)
 
 let%expect_test _ =
-   In_channel.read_all "./rooms.txt" |> Parser.parse 
-   |> solution 
-   |> Int.to_string |> print_endline;
-   [%expect {| 137896 |}]
+  In_channel.read_all "./rooms.txt" |> Parser.parse 
+  |> solution 
+  |> Int.to_string |> print_endline;
+  [%expect {| 137896 |}]
 
 let rotate positions chr = 
   (((Char.to_int chr - 97) + positions) % 26) + 97 |> Char.of_int_exn
@@ -102,10 +98,10 @@ let%test_unit _ =
   [%test_result : char] (rotate 1 'z') ~expect:'a'
 
 let%expect_test _ =
-   In_channel.read_all "./rooms.txt" |> Parser.parse 
-   |> List.filter ~f:is_real 
-   |> List.map ~f:(fun {encrypted_name; sector_id;_} -> (String.map ~f:(rotate sector_id) encrypted_name, sector_id) )
-   |> List.find ~f:(fun (unencrypted_name, _) -> String.is_substring ~substring:"northpoleobjectstorage" unencrypted_name)
-   |> [%sexp_of : (string * int) option] |> Sexp.to_string_hum
-   |> print_endline;
-   [%expect {| ((northpoleobjectstorage 501)) |}]
+  In_channel.read_all "./rooms.txt" |> Parser.parse 
+  |> List.filter ~f:is_real 
+  |> List.map ~f:(fun {encrypted_name; sector_id;_} -> (String.map ~f:(rotate sector_id) encrypted_name, sector_id) )
+  |> List.find ~f:(fun (unencrypted_name, _) -> String.is_substring ~substring:"northpoleobjectstorage" unencrypted_name)
+  |> [%sexp_of : (string * int) option] |> Sexp.to_string_hum
+  |> print_endline;
+  [%expect {| ((northpoleobjectstorage 501)) |}]

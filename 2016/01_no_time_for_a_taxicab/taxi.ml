@@ -1,10 +1,6 @@
 open Angstrom
 open Core
 
-let unwrap = function 
-  | Ok a -> a
-  | Error str -> failwith str
-
 module Coordinates = struct
   module T = struct
     type t = { x : int; y : int; } [@@deriving compare, sexp]     
@@ -71,23 +67,23 @@ let solve_part_1 instructions =
   Coordinates.distance (find_destination initial_state instructions).location
 
 let%expect_test _ =
-  let parsed_instructions = unwrap (parse_string parse_instructions "R2, L3") in
+  let parsed_instructions = Result.ok_or_failwith (parse_string parse_instructions "R2, L3") in
   solve_part_1 parsed_instructions |> Int.to_string |> print_endline;
   [%expect {| 5 |}]
 
 let%expect_test _ =
-  let parsed_instructions = unwrap (parse_string parse_instructions "R2, R2, R2") in
+  let parsed_instructions = Result.ok_or_failwith (parse_string parse_instructions "R2, R2, R2") in
   solve_part_1 parsed_instructions |> Int.to_string |> print_endline;
   [%expect {| 2 |}]
 
 let%expect_test _ =
-  let parsed_instructions = unwrap (parse_string parse_instructions "R5, L5, R5, R3") in
+  let parsed_instructions = Result.ok_or_failwith (parse_string parse_instructions "R5, L5, R5, R3") in
   solve_part_1 parsed_instructions |> Int.to_string |> print_endline;
   [%expect {| 12 |}]
 
 let%expect_test _ =
   In_channel.read_all "./directions.txt" 
-  |> parse_string parse_instructions |> unwrap
+  |> parse_string parse_instructions |> Result.ok_or_failwith
   |> solve_part_1 
   |> Int.to_string |> print_endline;  
   [%expect {| 253 |}]
@@ -116,13 +112,13 @@ let solve_part_2 instructions =
     (find_duplicate_location (Set.empty (module Coordinates)) initial_state instructions)
 
 let%expect_test _ =
-  let parsed_instructions = unwrap (parse_string parse_instructions "R8, R4, R4, R8") in
+  let parsed_instructions = Result.ok_or_failwith (parse_string parse_instructions "R8, R4, R4, R8") in
   solve_part_2 parsed_instructions |> [%sexp_of : int option] |> Sexp.to_string |> print_endline;
   [%expect {| (4) |}]
 
 let%expect_test _ =
   In_channel.read_all "./directions.txt" 
-  |> parse_string parse_instructions |> unwrap 
+  |> parse_string parse_instructions |> Result.ok_or_failwith 
   |> solve_part_2  
   |> [%sexp_of : int option] |> Sexp.to_string |> print_endline;
   [%expect {| () |}]
