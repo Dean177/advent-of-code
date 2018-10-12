@@ -1,0 +1,13 @@
+(library
+  (name twenty_fifteen)
+  (libraries angstrom core)  
+  (preprocess (pps ppx_jane))
+  (inline_tests))
+
+(alias
+  (name runtest)
+  (deps 
+    day_02.txt
+    day_03.txt
+    day_05.txt
+    ))
