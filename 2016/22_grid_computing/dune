@@ -1,0 +1,5 @@
+(library
+  (name data)
+  (libraries angstrom core)  
+    (inline_tests (deps df.txt))
+    (preprocess (pps ppx_jane)))

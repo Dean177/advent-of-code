@@ -1,2 +1,0 @@
-all: 
-	jbuilder build @DEFAULT
