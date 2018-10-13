@@ -10,7 +10,8 @@ let ribbon_length (l, w, h) =
 
 module Parser = struct
   open Angstrom
-  let integer = take_while1 (function | '0' .. '9' -> true | _ -> false) >>| Int.of_string
+  open Util.Parser
+
   let dimensions = List.sort ~compare:Int.compare <$> sep_by (char 'x') integer 
   let dimension_list = sep_by (char '\n') dimensions
   let parse str = parse_string dimension_list str |> Result.ok_or_failwith

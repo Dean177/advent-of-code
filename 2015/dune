@@ -1,8 +1,15 @@
 (library
   (name twenty_fifteen)
-  (libraries angstrom core)  
+  (libraries 
+    angstrom 
+    core 
+    stdint 
+    owl
+    yojson
+  )  
   (preprocess (pps ppx_jane))
-  (inline_tests))
+  (inline_tests)
+)
 
 (alias
   (name runtest)
@@ -10,4 +17,9 @@
     day_02.txt
     day_03.txt
     day_05.txt
-    ))
+    day_06.txt
+    day_07.txt
+    day_08.txt
+    day_12.json
+  )
+)

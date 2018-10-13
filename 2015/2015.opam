@@ -1,0 +1,21 @@
+opam-version: "2.0"
+name: "2015"
+authors: "Dean Merchant"
+homepage: "https://github.com/Dean177/advent-of-code/2015"
+maintainer: "deanmerchant@gmail.com"
+dev-repo: "git+ssh://git@github.com:Dean177/advent-of-code.git"
+bug-reports: "https://github.com/Dean177/advent-of-code/issues"
+version: "0.1"
+build: [
+  [ "dune" "subst" ] {pinned}
+  [ "dune" "build" "-p" name "-j" jobs ]
+]
+depends: [
+  "dune" {build}
+  "opam-lock" {dev}
+  "angstrom"
+  "core"
+  "owl" 
+  "stdint"
+  "yojson"
+]

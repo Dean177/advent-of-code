@@ -1,16 +1,5 @@
 open Core
-
-module Point = struct
-  module T = struct
-    type t = (int * int) [@@deriving compare, hash, sexp_of]
-    let levenstein (a, b) (x, y) = Int.abs (x - a) + Int.abs (y - b)
-  end
-  include T
-  include Comparator.Make(T)
-
-  let equal a b = compare a b = 0
-  let to_string (x, y) = String.concat ["("; Int.to_string x; ","; Int.to_string y;")"]  
-end
+open Util
 
 let move (x, y) = function 
   | '>' -> x + 1, y
