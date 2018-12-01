@@ -56,10 +56,6 @@ let rec process_i instructions {instruction_index; registers;} =
 module Parser = struct
   open Angstrom
 
-  let unwrap_exn = function 
-    | Ok r -> r
-    | Error err -> failwith err
-
   let integer = take_while1 (function | '-' | '0' .. '9' -> true | _ -> false) >>| Int.of_string
   let space = char ' '
   let label lbl = string lbl <* space
@@ -103,7 +99,7 @@ module Parser = struct
                            jnz c -5
                          |}
 
-  let parsed_instructions = parse_string instructions_parser raw_instructions |> unwrap_exn |> (Array.of_list)
+  let parsed_instructions = parse_string instructions_parser raw_instructions |> Result.ok_or_failwith |> (Array.of_list)
 
   let test_instructionms = 
     let test_input = {|cpy 41 a

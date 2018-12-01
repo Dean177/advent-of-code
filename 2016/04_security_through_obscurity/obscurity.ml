@@ -19,7 +19,7 @@ module Parser = struct
   let encrypted_name  = String.concat <$> (sep_by (char '-') lowercase_characters)
   let checksum = (char '[' *> lowercase_characters <* char ']')
   let room = make_room <$> encrypted_name <*> (sector_id) <*> checksum
-  let parse_room str = parse_string room str |> unwrap
+  let parse_room str = parse_string room str |> Result.ok_or_failwith
 
   let%expect_test _ =
     let () = (parse_room "aaaaa-bbb-z-y-x-123[abxyz]" 
@@ -27,7 +27,7 @@ module Parser = struct
     [%expect {| ((checksum abxyz) (encrypted_name aaaaabbbzyx) (sector_id 123)) |}]
 
   let rooms = sep_by (char '\n') room
-  let parse str = parse_string rooms str |> unwrap
+  let parse str = parse_string rooms str |> Result.ok_or_failwith
 
   let%expect_test _ =
     let test_rows = {eof|vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
@@ -38,8 +38,7 @@ module Parser = struct
     in
     [%expect {|
       (((checksum kotgr) (encrypted_name vxupkizorksgmtkzoipkrrehkgtzxgototm)
-        (sector_id 644))
-       ((checksum obmqs) (encrypted_name mbiyqoxsmpvygobnocsqx) (sector_id 900))) |}]
+        (sector_id 644))) |}]
 end
 
 let compare_char_counts (char_a, count_a) (char_b, count_b) = match Int.compare count_b count_a with 

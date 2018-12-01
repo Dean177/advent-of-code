@@ -28,17 +28,19 @@ let parse_triangle =
 let parse_triangles = sep_by (char '\n') parse_triangle
 
 let%expect_test _ =
-  parse_string parse_triangle "5  10  20" |> unwrap 
+  parse_string parse_triangle "5  10  20" 
+  |> Result.ok_or_failwith 
   |> [%sexp_of : triangle] |> Sexp.to_string |> print_endline;
   [%expect {| (5 10 20) |}]
 
 let%expect_test _ =
-  parse_string parse_triangle "  5  10  20" |> unwrap 
+  parse_string parse_triangle "  5  10  20" 
+  |> Result.ok_or_failwith 
   |> [%sexp_of : triangle] |> Sexp.to_string |> print_endline;
   [%expect {| (5 10 20) |}]
 
 let%expect_test _ =
-  In_channel.read_all "./triangles.txt" |> parse_string parse_triangles |> unwrap 
+  In_channel.read_all "./triangles.txt" |> parse_string parse_triangles |> Result.ok_or_failwith 
   |> List.filter ~f:is_triangle
   |> List.length  
   |> Int.to_string 
@@ -64,7 +66,8 @@ let%expect_test _ =
        201 401 601
        202 402 602
        203 403 603|eof}
-  |> parse_string parse_triangles |> unwrap 
+  |> parse_string parse_triangles 
+  |> Result.ok_or_failwith 
   |> transform_to_column_triangles
   |> List.filter ~f:is_triangle
   |> List.length  
@@ -79,7 +82,7 @@ let%expect_test _ =
        532  173  878
        574  792  854
        157  737  303|eof}    
-  |> parse_string parse_triangles |> unwrap 
+  |> parse_string parse_triangles |> Result.ok_or_failwith 
   |> transform_to_column_triangles
   |> List.filter ~f:is_triangle
   |> List.length  

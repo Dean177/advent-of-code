@@ -10,14 +10,17 @@ let ribbon_length (l, w, h) =
 
 module Parser = struct
   open Angstrom
-  open Util.Parser
+  open Toolbox.Parser
 
   let dimensions = List.sort ~compare:Int.compare <$> sep_by (char 'x') integer 
   let dimension_list = sep_by (char '\n') dimensions
   let parse str = parse_string dimension_list str |> Result.ok_or_failwith
 end
 
-let dimensions = In_channel.read_all "./day_02.txt" |> Parser.parse |> List.map ~f:of_int_list
+let dimensions = 
+  In_channel.read_all "./day_02.txt" 
+  |> Parser.parse 
+  |> List.map ~f:of_int_list
 
 let%expect_test _ =
   dimensions

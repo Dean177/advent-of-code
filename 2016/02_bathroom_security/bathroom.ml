@@ -1,5 +1,5 @@
 open Angstrom
-open! Core
+open Core
 
 type instruction = U | L | D | R [@@deriving sexp]
 
@@ -12,7 +12,7 @@ let parse_instruction =
 let parse_instructions = sep_by (char '\n') (many parse_instruction) 
 
 let%expect_test _ =
-  parse_string parse_instructions "UUU\nDDD" |> unwrap |> [%sexp_of : ((instruction list) list)] |> Sexp.to_string |> print_endline;
+  parse_string parse_instructions "UUU\nDDD" |> Result.ok_or_failwith |> [%sexp_of : ((instruction list) list)] |> Sexp.to_string |> print_endline;
   [%expect {| ((U U U)(D D D)) |}]
 
 let grid_keypad start_key instruction = match start_key with 

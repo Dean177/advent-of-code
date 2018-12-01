@@ -1,0 +1,13 @@
+(library
+  (name toolbox)
+  (libraries 
+    angstrom 
+    async
+    core 
+    owl
+    stdint 
+    yojson
+  )  
+  (preprocess (pps ppx_jane))
+  (inline_tests)
+)

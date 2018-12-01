@@ -1,13 +1,13 @@
 open Core
 open Owl
-open Util
+open Toolbox
 
 type op = TurnOn | TurnOff | Toggle
 type instruction = op * Point.t * Point.t
 
 module Parser = struct
   open Angstrom
-  open Util.Parser  
+  open Toolbox.Parser  
   let make_instruction a b c = (a, b, c)
   let bound = Point.create <$> (integer <* char ',') <*> integer
   let op = 

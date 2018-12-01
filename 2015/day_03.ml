@@ -1,5 +1,5 @@
 open Core
-open Util
+open Toolbox
 
 let move (x, y) = function 
   | '>' -> x + 1, y

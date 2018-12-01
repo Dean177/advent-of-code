@@ -121,4 +121,4 @@ let%expect_test _ =
   |> parse_string parse_instructions |> Result.ok_or_failwith 
   |> solve_part_2  
   |> [%sexp_of : int option] |> Sexp.to_string |> print_endline;
-  [%expect {| () |}]
+  [%expect {| (126) |}]

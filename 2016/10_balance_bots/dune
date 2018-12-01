@@ -1,5 +1,0 @@
-(library
-  (name chips)
-  (libraries angstrom core)  
-  (inline_tests (deps chip_distribution.txt))
-  (preprocess (pps ppx_jane)))

@@ -1,8 +1,0 @@
-(alias
-  (name DEFAULT)
-  (deps 
-    (alias_rec 01_no_time_for_a_taxicab/runtest)     
-    (alias_rec 02_bathroom_security/runtest)     
-    (alias_rec 03_squares_with_three_sides/runtest)     
-  )
-)

@@ -27,7 +27,6 @@ children = do
   string " -> "
   sepBy1 programName (string ", ")
 
-
 program :: ReadP Program
 program = do
   nameCode <- programName <* char ' '
@@ -58,8 +57,7 @@ findChildren programs children = (programs M.!) <$> children
 weight :: M.Map String Program -> Program -> Int
 weight _ (Program _ w []) = w
 weight programs (Program _ w chl) =
-  w + sum (findWeight <$> findChildren programs chl)
-    where findWeight = weight programs
+  w + sum ((weight programs) <$> findChildren programs chl)
 
 nameToProgram p@(Program n _ _ ) = (n, p)
 

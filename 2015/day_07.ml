@@ -18,7 +18,7 @@ type component = Unary of source * unary_op | Binary of source * binary_op * sou
 
 module Parser = struct
   open Angstrom
-  open Util.Parser
+  open Toolbox.Parser
   let wire_name = take_while (fun chr -> chr <> ' ' && chr <> '\n')
 
   let source = (signal <$> uint16) <|> (wire <$> wire_name)
