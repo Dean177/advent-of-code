@@ -6,5 +6,5 @@
     yojson
   )  
   (preprocess (pps ppx_jane))
-  (inline_tests (deps day_12.tct))
+  (inline_tests (deps day_12.json))
 )

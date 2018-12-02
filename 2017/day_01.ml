@@ -12,7 +12,7 @@ let%expect_test _ =
   |> List.filter ~f:isMatchingPair
   |> List.map ~f:fst 
   |> List.map ~f:Int.of_char
-  |> Int.List.sum
+  |> List.sum
   |> Int.to_string
   |> print_endline;
 
@@ -22,7 +22,7 @@ let%expect_test _ =
   List.filter pairs ~f:isMatchingPair
   |> List.map ~f:fst
   |> List.map ~f:Int.of_char
-  |> Int.List.sum
+  |> List.sum
   |> Int.to_string
   |> print_endline;
 

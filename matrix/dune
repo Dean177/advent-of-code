@@ -1,0 +1,9 @@
+(library
+  (name matrix)
+  (libraries 
+    core 
+    owl
+  )  
+  (preprocess (pps ppx_jane))
+  (inline_tests)
+)

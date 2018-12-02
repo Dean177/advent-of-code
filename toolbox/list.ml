@@ -30,11 +30,3 @@ let%expect_test _ =
   [%expect {| ((3 2 1) (3 1 2) (2 1 3) (2 3 1) (1 3 2) (1 2 3)) |}]
 
 let sum l = List.fold ~init:0 ~f:( + ) l
-
-let maximum l =
-  List.fold l ~init:None ~f:(fun acc x -> 
-      Some (Option.fold acc ~init:x ~f:(fun x' y -> Int.max x' y)))
-
-let minimum l = 
-  List.fold l ~init:None ~f:(fun acc x -> 
-      Some (Option.fold acc ~init:x ~f:(fun x' y -> Int.min x' y)))

@@ -5,5 +5,5 @@
     toolbox 
   )  
   (preprocess (pps ppx_jane))
-  (inline_tests (deps day_13.txt))
+  (inline_tests (deps input.txt))
 )

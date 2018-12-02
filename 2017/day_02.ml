@@ -24,8 +24,8 @@ let parse input =
 
 let checksum rows =
   List.fold rows ~init:0 ~f:(fun total row -> 
-      let min: int = Int.List.minimum row |> Option.value_exn in
-      let max: int = Int.List.maximum row |> Option.value_exn in
+      let min: int = List.min_elt row ~compare:Int.compare |> Option.value_exn in
+      let max: int = List.max_elt row ~compare:Int.compare |> Option.value_exn in
       total + Int.abs(max - min)
     )
 

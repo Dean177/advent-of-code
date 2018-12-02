@@ -8,7 +8,7 @@ let puzzleInput =
 
 let%expect_test _ =  
   print_endline "Part 1";
-  Int.List.sum puzzleInput |> Int.to_string  |> print_endline;
+  List.sum puzzleInput |> Int.to_string  |> print_endline;
 
   print_endline "Part 2";
   Sequence.cycle_list_exn puzzleInput 

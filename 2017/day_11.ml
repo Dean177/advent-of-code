@@ -24,7 +24,7 @@ let%expect_test _ =
   print_endline "Part 2";
   List.scan ~init:(0, 0, 0) ~f:step input
   |> List.map ~f:distance
-  |> Int.List.maximum 
+  |> List.max_elt ~compare:Int.compare 
   |> Option.value_exn
   |> Int.to_string
   |> print_endline;
