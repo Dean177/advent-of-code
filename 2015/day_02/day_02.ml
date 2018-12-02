@@ -5,6 +5,7 @@ let of_int_list = function
   | _ -> failwith ""
 
 let surface_area (l, w, h) = 3*l*w + 2*w*h + 2*h*l
+
 let ribbon_length (l, w, h) = 
   2 * l + 2 * w + (l * w * h)
 

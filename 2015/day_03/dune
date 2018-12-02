@@ -1,12 +1,10 @@
 (library
-  (name toolbox)
+  (name day_03_2015)
   (libraries 
     angstrom 
-    async
     core 
-    stdint 
-    yojson
+    toolbox 
   )  
   (preprocess (pps ppx_jane))
-  (inline_tests)
+  (inline_tests (deps day_03.txt))
 )

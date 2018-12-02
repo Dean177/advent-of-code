@@ -1,13 +1,10 @@
 (library
-  (name twenty_eighteen)
+  (name day_01_2018)
   (libraries 
     angstrom 
     core 
     toolbox
   )  
   (preprocess (pps ppx_jane))
-  (inline_tests))
-
-(alias
-  (name runtest)
-  (deps day_01.txt))
+  (inline_tests (deps day_01.txt))
+)

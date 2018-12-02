@@ -1,0 +1,13 @@
+(library
+  (name day_06_2015)
+  (libraries 
+    angstrom 
+    core 
+    owl
+    toolbox
+  )  
+  (preprocess (pps ppx_jane))
+  (inline_tests  (deps 
+    day_06.txt
+  ))
+)

@@ -1,0 +1,9 @@
+(library
+  (name day_08_2015)
+  (libraries 
+    core 
+    toolbox 
+  )  
+  (preprocess (pps ppx_jane))
+  (inline_tests (deps day_08.txt))
+)

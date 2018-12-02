@@ -1,6 +1,6 @@
 open Core
 
-let puzzleInput = In_channel.read_all "./day_01.txt"
+let puzzleInput = In_channel.read_all "./day_08.txt"
 
 type instruction = {
   register: string;
