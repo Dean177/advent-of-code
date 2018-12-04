@@ -1,0 +1,10 @@
+(library
+  (name day_04_2018)
+  (libraries 
+    angstrom 
+    core 
+    toolbox
+  )  
+  (preprocess (pps ppx_jane))
+  (inline_tests (deps input.txt))
+)

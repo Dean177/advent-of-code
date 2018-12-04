@@ -7,7 +7,7 @@ let isHex: char -> bool = function
   | '0' .. '9' | 'a' .. 'f' -> true 
   | _ -> false
 
-let bracketed (p: 'a Angstrom.t) : 'a Angstrom.t = 
+let parenthesised (p: 'a Angstrom.t) : 'a Angstrom.t = 
   (char '(') *> p <* (char ')')
 
 let alphaCharacter: char Angstrom.t = 
