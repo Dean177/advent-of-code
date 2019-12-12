@@ -1,35 +1,32 @@
 open Core
 
+let initialState = 
+  "##..#..##.#....##.#..#.#.##.#.#.######..##.#.#.####.#..#...##...#....#....#.##.###..#..###...#...#.."
+  |> String.to_array
+
 let puzzleInput = In_channel.read_all "./input.txt"
 
-type event = 
-  | ShiftStart of int
-  | Wakes 
-  | FallsAsleep
-  [@@deriving sexp, variants]
+let parse str = 
+  String.split_lines str 
+  |> List.map ~f:(fun line -> 
+      let words = String.split line ~on:' ' in
+      match words with 
+      | llcrr :: "=>" :: result :: [] -> (llcrr, result)
+      | _ -> failwith ("Unrecognized input: " ^ line)
+    )
+  |> String.Map.of_alist
 
-type logLine = LogLine of (string * event) [@@deriving sexp]
-  
+let slice str startingAt = 
+  if (startingAt < 2) then 
+    String.slice str startingAt (startingAt + 2)
+  else if (startingAt )
 
-module Parser = struct
-  open Angstrom
-  open Toolbox.Parser
-  let timestamp = char '[' *> (take_till (fun char -> char = ']'))
-  let guardStart = shiftstart <$> (string "Guard #" *> integer <* string " begins shift")
-  let sleeps = string "falls asleep" *> return FallsAsleep
-  let wakes = string "wakes up" *> return Wakes
 
-  let logLine =   
-    timestamp >>= fun ts ->
-    space *> (guardStart <|> sleeps <|> wakes) >>= fun event ->
-    return (LogLine (ts, event))
-
-  let parse = parse_string_exn (sep_by_newline logLine)
-end
+let generation charr = 
+  Array.mapi charr
 
 let%expect_test _ =  
   print_endline "Part 1";
-  puzzleInput |> Parser.parse |> [%sexp_of : logLine list] |> print_s;
   print_endline "Part Two";
   [%expect {|
     Part 1

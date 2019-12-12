@@ -6,7 +6,3 @@
   )  
   (preprocess (pps ppx_jane))
   (inline_tests))
-
-(alias
-  (name runtest)
-  (deps day_01.txt))

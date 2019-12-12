@@ -27,12 +27,3 @@ let send (channel: 'a t) (value : 'a) : unit =
   match Queue.dequeue channel.blockers with 
   | None -> Queue.enqueue channel.queue value
   | Some b -> Ivar.fill b value
-(* 
-let%expect_test _ = Thread_safe.block_on_async_exn (fun () ->
-    let chan = create () in
-    send chan 1;
-    send chan 2;
-    let%map value = receive chan in
-    print_endline (Int.to_string value);
-    [%expect {| 1 |}]
-  ) *)

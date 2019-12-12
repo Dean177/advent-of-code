@@ -1,0 +1,17 @@
+{
+  "name": "advent-of-code",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w"
+  },
+  "dependencies": {
+    "reason-standard": "file:../bindings/reason-standard/bucklescript"
+  },
+  "devDependencies": {
+    "bs-platform": "7.0.1"
+  }
+}

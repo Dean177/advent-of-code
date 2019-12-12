@@ -1,0 +1,27 @@
+{
+  "name": "AdventOfCode",
+  "namespace": true,
+  "refmt": 3,
+  "reason": {
+    "react-jsx": 3
+  },
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "suffix": ".bs.js",
+  "sources": [
+    {
+      "dir": "sources",
+      "subdirs": true
+    }
+  ],
+  "warnings": {
+    "number": "+A-4-23-40-42-44-48-101-102",
+    "error": "+A-3-44-102"
+  },
+  "ppx-flags": [],
+  "bs-dependencies": [
+    "reason-standard"
+  ]
+}
