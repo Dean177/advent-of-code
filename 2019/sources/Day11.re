@@ -97,33 +97,14 @@ let computer =
       },
   );
 
-let rec loop = () => {
-  switch (Computer.run(computer)) {
-  | `HaltOnOutput => loop()
-  | `Halt => ()
-  };
-};
-
 let part1 = () => {
-  loop();
+  Computer.runToHalt(computer);
   print(("Painted panels:", Map.keys(panelColors^)->List.length));
 };
 
-let extent = (t, ~compare) =>
-  Array.fold(t, ~initial=None, ~f=(range, element) => {
-    switch (range) {
-    | None => Some((element, element))
-    | Some((min, max)) =>
-      Some((
-        compare(element, min) < 0 ? element : min,
-        compare(element, max) > 0 ? element : max,
-      ))
-    }
-  });
-
 let part_2 = {
   panelColors := Map.Poly.singleton(~key=position^, ~value=White);
-  loop();
+  Computer.runToHalt(computer);
   print(("Painted panels:", Map.keys(panelColors^)->List.length));
   let paints = Map.toArray(panelColors^);
   let (minx, maxx) =

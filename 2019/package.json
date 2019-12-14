@@ -6,10 +6,13 @@
   "private": true,
   "scripts": {
     "build": "bsb -make-world",
+    "clean": "bsb -clean",
     "start": "bsb -make-world -w"
   },
   "dependencies": {
-    "reason-standard": "file:../bindings/reason-standard/bucklescript"
+    "log-update": "3.3.0",
+    "reason-log-update": "3.0.0-beta.2",
+    "reason-standard": "file:../../reason-standard/bucklescript"
   },
   "devDependencies": {
     "bs-platform": "7.0.1"

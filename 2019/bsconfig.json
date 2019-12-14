@@ -22,6 +22,7 @@
   },
   "ppx-flags": [],
   "bs-dependencies": [
-    "reason-standard"
+    "reason-standard",
+    "reason-log-update"
   ]
 }

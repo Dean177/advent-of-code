@@ -214,6 +214,13 @@ module Computer = {
     | code => raise(UnrecognizedOpcode(code))
     };
   };
+
+  let rec runToHalt = computer => {
+    switch (run(computer)) {
+    | `HaltOnOutput => runToHalt(computer)
+    | `Halt => ()
+    };
+  };
 };
 
 let runToHalt = (~inputs=[], program) => {
