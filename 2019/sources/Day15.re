@@ -210,9 +210,12 @@ let part_2 = {
   let maximum = ref(0);
   for (y in 0 to Array.length(maze) - 1) {
     for (x in 0 to Array.length(maze[y]) - 1) {
-      let pathLength = pathBetween(oxygen, (x, y))->Option.get(~default=0);
-      if (pathLength > maximum^) {
-        maximum := pathLength;
+      if (isEmpty(maze, (x, y))) {
+        let pathLength =
+          pathBetween(oxygen, (x, y))->Option.get(~default=0);
+        if (pathLength > maximum^) {
+          maximum := pathLength;
+        };
       };
     };
   };
