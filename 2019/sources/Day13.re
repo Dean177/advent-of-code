@@ -71,6 +71,9 @@ module Computer = {
         continue(Int64.of_int(input));
       };
     };
+
+    let queue = (queue: Belt.MutableQueue.t(Int64.t)): t =>
+      continue => continue(Belt.MutableQueue.popExn(queue));
   };
 
   module Output = {
@@ -340,7 +343,7 @@ let show = (screen: Map.Poly.t((Int64.t, Int64.t), tile)): string => {
   ->String.join(~sep="\n");
 };
 
-let part_2 = {
+let part_2 = () => {
   let program = Computer.Program.parse(input);
   program[0] = Int64.of_int(2);
   let outputState = ref(ReadX);

@@ -10,6 +10,7 @@
     "start": "bsb -make-world -w"
   },
   "dependencies": {
+    "bs-node-readline": "0.1.0",
     "log-update": "3.3.0",
     "reason-log-update": "3.0.0-beta.2",
     "reason-standard": "file:../../reason-standard/bucklescript"

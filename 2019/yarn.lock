@@ -19,6 +19,11 @@ ansi-styles@^3.2.0:
   dependencies:
     color-convert "^1.9.0"
 
+bs-node-readline@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bs-node-readline/-/bs-node-readline-0.1.0.tgz#08358814930697cf858cc21d4db47cb0de303f9b"
+  integrity sha512-oSxIEyV+Wiq+ja8RvHGAAdJZuQNkFnRSUKwPj2xPKXNndJBrpn7nEXY/5dZpWBvZ89UUDNUL4q3OZ8faThsDkQ==
+
 bs-platform@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-7.0.1.tgz#1d7b0ef6088b998dceee5db74a7cd8f01c20a3bd"
