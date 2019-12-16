@@ -20,7 +20,6 @@ test(expect =>
 let modules =
   read("./Day01.txt")
   ->String.split(~on="\n")
-  ->Array.fromList
   ->Array.map(~f=Js.Float.fromString);
 
 print(Array.sum((module Float), Array.map(modules, ~f=fuel)));

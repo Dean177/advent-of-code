@@ -4,10 +4,9 @@ open AdventOfCode;
 let orbits =
   read("./Day06.txt")
   ->String.split(~on="\n")
-  ->List.map(~f=line =>
-      String.split(line, ~on=")")->Tuple.fromList->Option.getExn
-    )
-  ->Array.fromList;
+  ->Array.map(~f=line =>
+      String.split(line, ~on=")")->Tuple.fromArray->Option.getExn
+    );
 
 let (planets, planetToParent) =
   Array.fold(

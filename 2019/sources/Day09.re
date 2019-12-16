@@ -31,13 +31,7 @@ module Computer = {
   module Program = {
     type t = array(Int64.t);
     let parse = input =>
-      String.split(input, ~on=",")
-      ->List.map(~f=Int64.of_string)
-      // TODO Reason parses Int32 by default !?
-      // string =>
-      //          Int.fromString(string)
-      //          ->Option.getOrFailWith(~exn=Invalid_argument(string))
-      ->Array.fromList;
+      String.split(input, ~on=",")->Array.map(~f=Int64.of_string);
   };
 
   module Memory = {

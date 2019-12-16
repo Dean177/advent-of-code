@@ -12,7 +12,7 @@ type instruction = (direction, int);
 
 let parseWire = input =>
   String.split(input, ~on=",")
-  ->List.map(~f=string => {
+  ->Array.map(~f=string => {
       let direction =
         switch (String.slice(string, ~from=0, ~to_=1)) {
         | "U" => U
@@ -31,8 +31,8 @@ let parseWire = input =>
 
 let parse = input =>
   String.split(input, ~on="\n")
-  ->List.map(~f=parseWire)
-  ->Tuple.fromList
+  ->Array.map(~f=parseWire)
+  ->Tuple.fromArray
   ->Option.getExn;
 
 let closestIntersection = input => {
@@ -41,7 +41,7 @@ let closestIntersection = input => {
     ->Tuple.mapAll(~f=instructions => {
         let points = ref(Set.Poly.empty());
         let position = ref((0, 0));
-        List.forEach(instructions, ~f=((direction, steps)) =>
+        Array.forEach(instructions, ~f=((direction, steps)) =>
           Array.range(steps)
           ->Array.forEach(~f=_ => {
               let (x, y) = position^;
@@ -91,7 +91,7 @@ let fewestCombinedSteps = input => {
         let points = ref(Map.Poly.empty());
         let position = ref((0, 0));
         let steps = ref(0);
-        List.forEach(instructions, ~f=((direction, magnitude)) =>
+        Array.forEach(instructions, ~f=((direction, magnitude)) =>
           Array.range(magnitude)
           ->Array.forEach(~f=_ => {
               let (x, y) = position^;

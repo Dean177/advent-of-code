@@ -12,8 +12,7 @@ type instruction = (mode, mode, mode, opcode);
 
 let parse = input =>
   String.split(input, ~on=",")
-  ->List.map(~f=string => Int.fromString(string)->Option.getExn)
-  ->Array.fromList;
+  ->Array.map(~f=string => Int.fromString(string)->Option.getExn);
 
 let divRem = (n, ~by) => (Int.divide(n, ~by), Int.remainder(n, ~by));
 

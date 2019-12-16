@@ -28,13 +28,7 @@ module Computer = {
   module Program = {
     type t = array(Int64.t);
     let parse = input =>
-      String.split(input, ~on=",")
-      ->List.map(~f=Int64.of_string)
-      // TODO Reason parses Int32 by default !?
-      // string =>
-      //          Int.fromString(string)
-      //          ->Option.getOrFailWith(~exn=Invalid_argument(string))
-      ->Array.fromList;
+      String.split(input, ~on=",")->Array.map(~f=Int64.of_string);
   };
 
   module Memory = {
@@ -323,10 +317,10 @@ let show = (screen: Map.Poly.t((Int64.t, Int64.t), tile)): string => {
     Map.toArray(screen)
     ->Array.map(~f=Tuple.mapFirst(~f=Tuple.mapAll(~f=Int64.to_int)));
   let (minx, maxx) =
-    extent(Array.map(paints, ~f=(((x, _), _)) => x), ~compare)
+    Array.extent(Array.map(paints, ~f=(((x, _), _)) => x), ~compare)
     ->Option.getExn;
   let (miny, maxy) =
-    extent(Array.map(paints, ~f=(((_, y), _)) => y), ~compare)
+    Array.extent(Array.map(paints, ~f=(((_, y), _)) => y), ~compare)
     ->Option.getExn;
 
   let message =

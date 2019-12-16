@@ -5,8 +5,7 @@ let input = read("./Day10.txt");
 
 let field =
   String.split(input, ~on="\n")
-  ->List.map(~f=line => String.split(line, ~on="")->Array.fromList)
-  ->Array.fromList;
+  ->Array.map(~f=line => String.split(line, ~on=""));
 
 let columns = Array.length(field) - 1;
 let rows = Array.length(field[0]) - 1;
@@ -84,13 +83,19 @@ let part2 = {
     };
   };
 
+  let clockwisePositiveRadiansFromUp = ((x, y)) =>
+    (17 - x) * (17 - x) + (23 - y) * (23 - y);
+
   let radiansToAsteroids =
     Map.toArray(vectorToCount^)
     ->Array.map(~f=((vector, asteroids)) =>
         (
           toRadians(vector)->toClockwiseUp,
-          List.sortBy(asteroids, ~f=((x, y)) =>
-            (17 - x) * (17 - x) + (23 - y) * (23 - y)
+          List.sort(asteroids, ~compare=(a, b) =>
+            compare(
+              clockwisePositiveRadiansFromUp(a),
+              clockwisePositiveRadiansFromUp(b),
+            )
           ),
         )
       );

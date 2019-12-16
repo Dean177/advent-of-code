@@ -108,10 +108,10 @@ let part_2 = {
   print(("Painted panels:", Map.keys(panelColors^)->List.length));
   let paints = Map.toArray(panelColors^);
   let (minx, maxx) =
-    extent(Array.map(paints, ~f=(((x, _), _)) => x), ~compare)
+    Array.extent(Array.map(paints, ~f=(((x, _), _)) => x), ~compare)
     ->Option.getExn;
   let (miny, maxy) =
-    extent(Array.map(paints, ~f=(((_, y), _)) => y), ~compare)
+    Array.extent(Array.map(paints, ~f=(((_, y), _)) => y), ~compare)
     ->Option.getExn;
 
   let message =

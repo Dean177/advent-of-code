@@ -63,6 +63,7 @@ let show = (droidPosition, maze: Hashtbl.t((int, int), tile)): string => {
       ~f=Fun.constant(((0, 0), Empty)),
     );
   let i = ref(0);
+
   maze
   |> Hashtbl.iter((key, value) => {
        tiles[i^] = (key, value);
@@ -70,10 +71,10 @@ let show = (droidPosition, maze: Hashtbl.t((int, int), tile)): string => {
      });
 
   let (minx, maxx) =
-    extent(Array.map(tiles, ~f=(((x, _), _)) => x), ~compare)
+    Array.extent(Array.map(tiles, ~f=(((x, _), _)) => x), ~compare)
     ->Option.getExn;
   let (miny, maxy) =
-    extent(Array.map(tiles, ~f=(((_, y), _)) => y), ~compare)
+    Array.extent(Array.map(tiles, ~f=(((_, y), _)) => y), ~compare)
     ->Option.getExn;
 
   let display =
@@ -158,10 +159,7 @@ let genMaze = () => {
 let maze =
   read("./Day15-maze.txt")
   ->String.split(~on="\n")
-  ->List.map(~f=row =>
-      String.split(row, ~on="")->List.map(~f=fromString)->Array.fromList
-    )
-  ->Array.fromList;
+  ->Array.map(~f=row => String.split(row, ~on="")->Array.map(~f=fromString));
 
 let isEmpty = (maze, (x, y)) => {
   maze[y][x] == Empty || maze[y][x] == Oxygen;

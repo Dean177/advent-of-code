@@ -17,16 +17,16 @@ type reaction = {
 
 let parseChemical = string => {
   let (quantity, name) =
-    String.split(string, ~on=" ")->Tuple.fromList->Option.getExn;
+    String.split(string, ~on=" ")->Tuple.fromArray->Option.getExn;
   {amount: Int.fromString(quantity)->Option.getExn, name};
 };
 
 let parse = input =>
   String.split(input, ~on="\n")
-  ->List.map(~f=line => {
+  ->Array.map(~f=line => {
       let (inputs, output) =
         String.split(line, ~on=" => ")
-        ->Tuple.fromList
+        ->Tuple.fromArray
         ->Option.getOrFailWith(~exn=Invalid_argument("Bad line: " ++ line));
 
       let {amount, name} = parseChemical(output);
@@ -34,11 +34,14 @@ let parse = input =>
         name,
         {
           quantity: amount,
-          inputs: String.split(inputs, ~on=", ")->List.map(~f=parseChemical),
+          inputs:
+            String.split(inputs, ~on=", ")
+            ->Array.map(~f=parseChemical)
+            ->Array.toList,
         },
       );
     })
-  ->Map.String.fromList;
+  ->Map.String.fromArray;
 
 let oreCostForFuel =
     (~inventory=ref(Map.String.empty), chemicalToInputs, quantity) => {

@@ -6,8 +6,7 @@ let input = read("./Day02.txt");
 
 let parse = input =>
   String.split(input, ~on=",")
-  ->List.map(~f=string => Int.fromString(string)->Option.getExn)
-  ->Array.fromList;
+  ->Array.map(~f=string => Int.fromString(string)->Option.getExn);
 
 let format = memory =>
   String.join(Array.map(memory, ~f=Int.toString)->Array.toList, ~sep=",");

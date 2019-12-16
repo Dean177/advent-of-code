@@ -6,10 +6,11 @@ let input = read("./Day16.txt");
 
 let parse = input =>
   String.split(input, ~on="")
-  ->List.map(~f=digit =>
+  ->Array.map(~f=digit =>
       Int.fromString(digit)
       ->Option.getOrFailWith(~exn=Invalid_argument(digit))
-    );
+    )
+  ->Array.toList;
 
 let basePattern = [|0, 1, 0, (-1)|];
 
@@ -23,11 +24,11 @@ test(expect =>
 
 let phase = signal => {
   let length = List.length(signal);
-  List.mapI(
+  List.indexedMap(
     signal,
     ~f=(index, _) => {
       let pattern = pattern(index + 1) |> Stream.npeek(length);
-      List.zipWith(signal, pattern, ~f=Int.multiply)
+      List.map2(signal, pattern, ~f=Int.multiply)
       |> List.sum((module Int))
       |> Int.modulo(~by=10)
       |> Int.absolute;

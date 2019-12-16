@@ -16,7 +16,6 @@ let getOrError = (t, ~message) =>
 let parse = (input, ~width, ~height): Array.t(layer) => {
   let pixels =
     String.split(input, ~on="")
-    ->Array.fromList
     ->Array.map(~f=pixel =>
         Int.fromString(pixel)
         ->getOrError(~message="Parsed non digit pixel: " ++ pixel)
