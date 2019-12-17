@@ -73,9 +73,9 @@ module Computer = {
   module Output = {
     type t = (Int64.t, unit => unit) => unit;
 
-    let list = (outputs, value, conntinue) => {
+    let list = (outputs, value, continue) => {
       outputs := [value, ...outputs^];
-      conntinue();
+      continue();
     };
 
     let console: t =

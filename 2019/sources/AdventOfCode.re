@@ -44,7 +44,7 @@ module Async = {
 };
 
 module Test = {
-  let isTest = true;
+  let isTest = false;
   type expectation('a) = 'a;
   let expect = (actual: 'a): expectation('a) => actual;
 
