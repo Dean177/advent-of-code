@@ -185,6 +185,7 @@ let rec pathBetween = (a, ~visited=Set.Poly.singleton(a), b) =>
       });
     };
   };
+
 let rec findIndex = (~x=0, ~y=0, arrays, ~f) =>
   if (y >= Array.length(arrays)) {
     None;

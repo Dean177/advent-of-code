@@ -6,6 +6,16 @@ type buffer;
 
 let read = path => readFileSync(path)->toString;
 
+module Array = {
+  include Array;
+  let clone = t => Array.map(t, ~f=Fun.identity);
+};
+
+module Option = {
+  include Option;
+  let or_ = (a, b) => Option.isSome(a) ? a : b;
+}
+
 module Async = {
   type t(+'a) = Js.Promise.t('a);
 
@@ -44,12 +54,12 @@ module Async = {
 };
 
 module Test = {
-  let isTest = false;
+  let runTests = false;
   type expectation('a) = 'a;
   let expect = (actual: 'a): expectation('a) => actual;
 
   let test = testFn =>
-    if (isTest) {
+    if (runTests) {
       switch (testFn(expect)) {
       | () => ()
       | exception error => Js.Console.error(("Fail", error))
@@ -73,15 +83,11 @@ module Test = {
 let print = value => Js.Console.log(value);
 
 let digits = number => {
-  Standard.(
-    Int.toString(number)
-    ->String.toList
-    ->Array.fromList
-    ->Obj.magic
-    ->Array.map(~f=characterString =>
-        Int.fromString(characterString)->Option.getExn
-      )
-  );
+  Int.toString(number)
+  ->String.split(~on="")
+  ->Array.map(~f=characterString =>
+      Int.fromString(characterString)->Option.getExn
+    );
 };
 
 let rec gcd = (x, y) => y == 0 ? x : gcd(y, x mod y);
@@ -116,3 +122,98 @@ let permutations = lst => {
 };
 
 let distinct = array => Set.Int.fromArray(array)->Set.toArray;
+
+module Matrix = {
+  type t('a) = array(array('a));
+
+  let get = (t, (x, y)) => t[y][x];
+
+  let set = (t, x, y, value) => t[y][x] = value;
+
+  let clone = (t: t('a)): t('a) => Array.map(t, ~f=Array.clone);
+
+  let foldI = (t, ~initial, ~f) => {
+    let res = ref(initial);
+    for (y in 0 to Array.length(t) - 1) {
+      for (x in 0 to Array.length(t[y]) - 1) {
+        res := f(res^, get(t, (x, y)), (x, y));
+      };
+    };
+    res^;
+  };
+
+  let rec findIndex =
+          (~x=0, ~y=0, t: t('a), ~f: ((int, int), 'a) => bool)
+          : option(((int, int), 'a)) =>
+    if (y >= Array.length(t)) {
+      None;
+    } else if (x >= Array.length(t[y])) {
+      findIndex(~x=0, ~y=y + 1, t, ~f);
+    } else if (f((x, y), t[y][x])) {
+      Some(((x, y), t[y][x]));
+    } else {
+      findIndex(~x=x + 1, ~y, t, ~f);
+    };
+
+  let forEachI = (t, ~f) =>
+    foldI(t, ~initial=(), ~f=((), position, element) =>
+      f(position, element)
+    );
+};
+
+module Compass = {
+  type direction =
+    | N
+    | E
+    | S
+    | W;
+
+  let directions = [|N, E, S, W|];
+
+  let step = ((x, y)) =>
+    fun
+    | N => (x, y - 1)
+    | E => (x + 1, y)
+    | S => (x, y + 1)
+    | W => (x - 1, y);
+};
+
+module Ref = {
+  let increment = i => i := i^ + 1;
+};
+
+module MutableDeque = {
+  type t('a) = ref((list('a), list('a)));
+
+  let empty = () => ref(([], []));
+
+  let fromList = list => ref((list, []));
+
+  let isEmpty = t =>
+    switch (t^) {
+    | ([], []) => true
+    | _ => false
+    };
+
+  let rec popLeft = t => {
+    switch (t^) {
+    | ([], []) => None
+    | ([element, ...front], back) =>
+      t := (front, back);
+      Some(element);
+    | ([], back) =>
+      t := (List.reverse(back), []);
+      popLeft(t);
+    };
+  };
+
+  let pushRight = (t, element) => {
+    let (front, back) = t^;
+    t := (front, [element, ...back]);
+  };
+
+  let pushLeft = (t, element) => {
+    let (front, back) = t^;
+    t := ([element, ...front], back);
+  };
+};
