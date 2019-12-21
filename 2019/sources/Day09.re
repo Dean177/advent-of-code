@@ -78,6 +78,14 @@ module Computer = {
     };
 
     let console: t = value => print(("Output", value));
+
+    let stdout = value => {
+      Int64.to_int(value)
+      ->Char.fromCode
+      ->Option.map(~f=Char.toString)
+      ->Option.get(~default=Int64.to_string(value))
+      ->print_string;
+    };
   };
 
   type t = {

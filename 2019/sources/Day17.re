@@ -3,15 +3,7 @@ open AdventOfCode;
 
 let input = read("./Day17.txt");
 
-module Computer = Day15.Computer;
-
-let stdout = value => {
-  Int64.to_int(value)
-  ->Char.fromCode
-  ->Option.map(~f=Char.toString)
-  ->Option.get(~default=Int64.to_string(value))
-  ->print_string;
-};
+module Computer = Day09.Computer;
 
 let show = output =>
   List.reverse(output)
@@ -81,6 +73,9 @@ let part_2 = {
       )
     ->Array.toList;
 
-  Computer.make(program, ~input=Computer.Input.list(inputs), ~output=stdout)
+  Computer.make(
+      program, 
+      ~input=Computer.Input.list(inputs), 
+      ~output=Computer.Output.stdout)
   |> Computer.runToHalt;
 };
